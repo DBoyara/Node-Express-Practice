@@ -1,6 +1,9 @@
 const express = require('express')
 const path = require('path')
 const exphbs = require('express-handlebars')
+const mongoose = require('mongoose')
+const dotenv = require('dotenv').config()
+
 const homeRoutes = require('./routes/home')
 const addRoutes = require('./routes/add')
 const cardRoutes = require('./routes/card')
@@ -27,6 +30,16 @@ app.use('/card', cardRoutes)
 
 const PORT = process.env.PORT || 3000
 
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`)
-})
+async function start (){
+    try {
+        await mongoose.connect(process.env.url_db, {useNewUrlParser: true, useUnifiedTopology: true})
+
+        app.listen(PORT, () => {
+            console.log(`Server is running on port ${PORT}`)
+        })
+    } catch (e) {
+        console.log(e)
+    }
+}
+
+start()
