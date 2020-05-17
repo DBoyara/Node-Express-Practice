@@ -12,6 +12,4 @@ const course = new Schema({
   img: String
 })
 
-
-
 module.exports = model('Course', course)
