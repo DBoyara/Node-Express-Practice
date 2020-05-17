@@ -9,7 +9,10 @@ const course = new Schema({
     type: Number,
     required: true
   },
-  img: String
+  img: {
+    type: String,
+    required: true
+  }
 })
 
 module.exports = model('Course', course)
