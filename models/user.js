@@ -48,4 +48,20 @@ user.methods.addToCart = function (course) {
 
 }
 
+user.methods.removeFromCart = function (id) {
+  let items = [...this.cart.items]
+  const idx = items.findIndex(c => c.courseId.toString() === id.toString())
+
+  if (idx === 1) {
+    items = items.filter(c => c.courseId.toString() !== id.toString())
+  } else {
+    items[idx].count--
+  }
+
+  // this.cart = {items: items}
+  this.cart = {items}
+  return this.save()
+
+}
+
 module.exports = model('User', user)
