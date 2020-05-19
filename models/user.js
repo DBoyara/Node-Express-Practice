@@ -1,6 +1,6 @@
 const {Schema, model} = require('mongoose')
 
-const user = new Schema({
+const userSchema = new Schema({
   email: {
     type: String,
     required: true
@@ -11,23 +11,24 @@ const user = new Schema({
   },
   cart: {
     items: [
-        {
-            count:{
-                type: Number,
-                required: true,
-                default: 1
-            },
-            courseId: {
-                type: Schema.Types.ObjectId,
-                ref: 'Course',
-                required: true
-            }
+      {
+        count: {
+          type: Number,
+          required: true,
+          default: 1
+        },
+        courseId: {
+          type: Schema.Types.ObjectId,
+          ref: 'Course',
+          required: true
         }
+      }
     ]
   }
 })
 
-user.methods.addToCart = function (course) {
+
+userSchema.methods.addToCart = function(course) {
   const items = [...this.cart.items]
   const idx = items.findIndex(c => {
     return c.courseId.toString() === course._id.toString()
@@ -42,17 +43,16 @@ user.methods.addToCart = function (course) {
     })
   }
 
-  // this.cart = {items: items}
   this.cart = {items}
   return this.save()
-
 }
 
-user.methods.removeFromCart = function (id) {
+
+userSchema.methods.removeFromCart = function(id) {
   let items = [...this.cart.items]
   const idx = items.findIndex(c => c.courseId.toString() === id.toString())
 
-  if (idx === 1) {
+  if (items[idx].count === 1) {
     items = items.filter(c => c.courseId.toString() !== id.toString())
   } else {
     items[idx].count--
@@ -61,7 +61,6 @@ user.methods.removeFromCart = function (id) {
   // this.cart = {items: items}
   this.cart = {items}
   return this.save()
-
 }
 
-module.exports = model('User', user)
+module.exports = model('User', userSchema)
