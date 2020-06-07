@@ -4,6 +4,7 @@ const Handlebars = require('handlebars')
 const exphbs = require('express-handlebars');
 const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access')
 const session = require('express-session')
+const MongoStore = require('connect-mongodb-session')(session)
 const mongoose = require('mongoose')
 const dotenv = require('dotenv').config()
 
@@ -25,6 +26,11 @@ const hbs = exphbs.create({
     extname: 'hbs',
     handlebars: allowInsecurePrototypeAccess(Handlebars)
 })
+const store = new MongoStore({
+    collection: 'sessions',
+    uri: process.env.url_db,
+
+})
 
 app.engine('hbs', hbs.engine)
 app.set('view engine', 'hbs')
@@ -35,7 +41,8 @@ app.use(express.urlencoded({extended: true}))
 app.use(session({
     secret: 'some secret value',
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
+    store: store // just store
 }))
 
 app.use(varMiddleware)
