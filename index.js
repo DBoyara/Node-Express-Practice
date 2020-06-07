@@ -7,6 +7,7 @@ const session = require('express-session')
 const MongoStore = require('connect-mongodb-session')(session)
 const mongoose = require('mongoose')
 const dotenv = require('dotenv').config()
+const csrf = require('csurf')
 
 const homeRoutes = require('./routes/home')
 const addRoutes = require('./routes/add')
@@ -14,8 +15,6 @@ const cartRoutes = require('./routes/cart')
 const coursesRoutes = require('./routes/courses')
 const ordersRoutes = require('./routes/orders')
 const authRoutes = require('./routes/auth')
-
-const User = require('./models/user')
 
 const varMiddleware = require('./middleware/var')
 const userMiddleware = require('./middleware/user')
@@ -45,6 +44,7 @@ app.use(session({
     saveUninitialized: false,
     store: store // just store
 }))
+app.use(csrf())
 
 app.use(varMiddleware)
 app.use(userMiddleware)
