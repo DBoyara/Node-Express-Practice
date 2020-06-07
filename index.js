@@ -18,6 +18,7 @@ const authRoutes = require('./routes/auth')
 const User = require('./models/user')
 
 const varMiddleware = require('./middleware/var')
+const userMiddleware = require('./middleware/user')
 
 const app = express()
 
@@ -46,6 +47,7 @@ app.use(session({
 }))
 
 app.use(varMiddleware)
+app.use(userMiddleware)
 
 app.use('/', homeRoutes)
 app.use('/add', addRoutes)
