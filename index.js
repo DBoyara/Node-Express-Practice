@@ -19,6 +19,7 @@ const authRoutes = require('./routes/auth')
 
 const varMiddleware = require('./middleware/var')
 const userMiddleware = require('./middleware/user')
+const errorHandler = require('./middleware/error')
 
 const app = express()
 
@@ -57,6 +58,8 @@ app.use('/courses', coursesRoutes)
 app.use('/cart', cartRoutes)
 app.use('/orders', ordersRoutes)
 app.use('/auth', authRoutes)
+
+app.use(errorHandler)
 
 const PORT = process.env.PORT || 3000
 
