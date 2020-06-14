@@ -16,6 +16,7 @@ const cartRoutes = require('./routes/cart')
 const coursesRoutes = require('./routes/courses')
 const ordersRoutes = require('./routes/orders')
 const authRoutes = require('./routes/auth')
+const profileRoutes = require('./routes/profile')
 
 const varMiddleware = require('./middleware/var')
 const userMiddleware = require('./middleware/user')
@@ -58,6 +59,7 @@ app.use('/courses', coursesRoutes)
 app.use('/cart', cartRoutes)
 app.use('/orders', ordersRoutes)
 app.use('/auth', authRoutes)
+app.use('/profile', profileRoutes)
 
 app.use(errorHandler)
 
