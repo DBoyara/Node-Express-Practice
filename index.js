@@ -9,6 +9,7 @@ const mongoose = require('mongoose')
 const dotenv = require('dotenv').config()
 const csrf = require('csurf')
 const flash = require('connect-flash')
+const helmet = require('helmet')
 
 const homeRoutes = require('./routes/home')
 const addRoutes = require('./routes/add')
@@ -53,6 +54,7 @@ app.use(session({
 app.use(fileMiddleware.single('avatar'))
 app.use(csrf())
 app.use(flash())
+app.use(helmet())
 
 app.use(varMiddleware)
 app.use(userMiddleware)
